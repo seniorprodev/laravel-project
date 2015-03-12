@@ -1,0 +1,30 @@
+<IfModule mod_rewrite.c>
+	Options -Indexes
+	RewriteEngine On
+	RewriteCond %{REQUEST_URI} ^/favicon.ico$ [OR]
+	RewriteCond %{REQUEST_FILENAME} -s [OR]
+	RewriteCond %{REQUEST_FILENAME} -l [OR]
+	RewriteCond %{REQUEST_FILENAME} -d
+	RewriteRule ^.*$ - [NC,L]
+	RewriteRule ^.*$ index.php [NC,L]
+
+	SetEnvIfNoCase User-Agent "^Wget" bad_bot
+	SetEnvIfNoCase User-Agent "^EmailSiphon" bad_bot
+	SetEnvIfNoCase User-Agent "^EmailWolf" bad_bot
+	SetEnvIfNoCase User-Agent "^bot" bad_bot
+	SetEnvIfNoCase User-Agent "^Bot" bad_bot
+
+	SetEnvIfNoCase User-Agent "^Bandit" bad_bot
+	SetEnvIfNoCase User-Agent "^Baiduspider" bad_bot
+	SetEnvIfNoCase User-Agent "^BatchFTP" bad_bot
+	SetEnvIfNoCase User-Agent "^Bigfoot" bad_bot
+	SetEnvIfNoCase User-Agent "^Black.Hole" bad_bot
+
+	SetEnvIfNoCase User-Agent .*google.* search_robot
+	SetEnvIfNoCase User-Agent .*yahoo.* search_robot
+	SetEnvIfNoCase User-Agent .*spider.* search_robot
+	SetEnvIfNoCase User-Agent .*bot.* search_robot
+	SetEnvIfNoCase User-Agent .*ask.* search_robot
+
+	Deny from env=bad_bot env=search_robot
+</IfModule>
